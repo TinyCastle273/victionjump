@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, input, Input, tween, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2 } from 'cc';
+import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene } from 'cc';
 import { MCController } from './MCController';
 import { SpikePool } from './SpikePool';
 import { Results } from './Results';
@@ -53,8 +53,7 @@ export class GameController extends Component {
     public isOver: boolean;
     public currentRunSpeed: number;
     public activeSpikes: Node[]
-
-    public currentSpikeDisntance: number;
+    public lastSpike: Node;
 
     onLoad() {
 
@@ -117,14 +116,17 @@ export class GameController extends Component {
         this.result.resetScore();
 
         //reset the pipes
-        this.spikePool.reset();
-
+        if (this.activeSpikes) {
+            this.activeSpikes.forEach(element => {
+                this.spikePool.pool.put(element);
+            });
+        }
+        this.activeSpikes = new Array();
         //game is starting
         this.isOver = false;
-
+        this.lastSpike = null;
         this.currentRunSpeed = this.runSpeed;
 
-        this.currentSpikeDisntance = 0;
         //get objects moving again
         this.startGame();
     }
@@ -179,28 +181,43 @@ export class GameController extends Component {
 
     //every time the game updates, do this
     update(deltaTime: number) {
-
         //if the game is still going, check if the bird hit something
         if (this.isOver == false) {
             this.mcStruck();
             this.spawnSpike();
+
             this.activeSpikes.forEach(element => {
                 let x = element.position.x - this.currentRunSpeed * deltaTime;
-                element.setPosition(new Vec3(x, 0, 0))
+                if (x < -screen.windowSize.width / 2) {
+                    x = this.lastSpike.position.x + this.getRandomDistace();
+                    this.lastSpike = element;
+                }
+                element.setPosition(new Vec3(x, element.position.y))
             });
         }
 
     }
 
     spawnSpike() {
+        if (!this.spikePool.pool) return;
         if (this.spikePool.pool.size() <= 0) return;
-        let spike = this.spikePool.pool.get();
 
+        let spike = this.spikePool.pool.get();
+        this.spikePool.spikePoolHome.addChild(spike);
+
+        let currentSpikeDisntance = screen.windowSize.width / 2;
+        if (this.lastSpike)
+            currentSpikeDisntance = this.lastSpike.position.x + this.getRandomDistace();
+        spike.setPosition(new Vec3(currentSpikeDisntance, 0));
+
+        this.activeSpikes.push(spike);
+        this.lastSpike = spike;
+    }
+
+    getRandomDistace() {
         let min = this.spikeDistanceSpawnRandomFrom;
         let max = this.spikeDistanceSpawnRandomTo;
-        const spawnX = this.currentSpikeDisntance + Math.floor(Math.random() * (max - min + 1) + min);
-        spike.position = new Vec3(spawnX, 0);
-        this.activeSpikes.push(spike);
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
 }

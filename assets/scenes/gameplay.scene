@@ -513,7 +513,7 @@
     "__prefab": null,
     "jumpHeight": 200,
     "canJumpHeight": 30,
-    "jumpDuration": 0.4,
+    "jumpDuration": 0.3,
     "_id": "ebq7aGN0VP2LLW6Dqz1wAy"
   },
   {
@@ -526,7 +526,7 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "enabledContactListener": false,
+    "enabledContactListener": true,
     "bullet": false,
     "awakeOnLoad": true,
     "_group": 1,
@@ -1332,9 +1332,9 @@
     "spikePool": {
       "__id__": 17
     },
-    "runSpeed": 10,
-    "spikeDistanceSpawnRandomFrom": 100,
-    "spikeDistanceSpawnRandomTo": 200,
+    "runSpeed": 500,
+    "spikeDistanceSpawnRandomFrom": 500,
+    "spikeDistanceSpawnRandomTo": 1000,
     "result": {
       "__id__": 33
     },

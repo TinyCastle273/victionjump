@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, NodePool, Prefab } from 'cc';
+import { _decorator, Component, director, instantiate, Node, NodePool, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('SpikePool')
@@ -33,17 +33,10 @@ export class SpikePool extends Component {
             let createSpike = instantiate(this.prefabSpike); //instantiate means make a copy of the orginal
 
             // put first one on the screen. So make it a child of the canvas.
-            if (i == 0) {
-                this.spikePoolHome.addChild(createSpike);
-            } else {
-                //put others into the nodePool
-                this.pool.put(createSpike);
-            }
+            //this.spikePoolHome.addChild(createSpike);
+            this.pool.put(createSpike);
         }
 
-    }
-
-    reset() {
     }
 }
 

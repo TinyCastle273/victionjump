@@ -16,7 +16,6 @@ export class Grounds extends Component {
         let x = this.node.position.x - this.gameController.currentRunSpeed * dt;
         this.node.setPosition(new Vec3(x, this.node.position.y))
         this.grounds.forEach(element => {
-            console.log(element.node.position.x);
             if (element.node.worldPosition.x < -screen.windowSize.width / 2 - element.width / 2) {
                 let xG = element.node.position.x + element.width * (this.grounds.length);
                 element.node.setPosition(xG, element.node.position.y)

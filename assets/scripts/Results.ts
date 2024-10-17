@@ -1,25 +1,25 @@
-import { _decorator, Component, Node, RichText } from 'cc';
+import { _decorator, Component, Label, Node, RichText } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Results')
 export class Results extends Component {
     @property({
-        type: RichText,
+        type: Label,
         tooltip: 'Current Score'
     })
-    public scoreLabel: RichText;
+    public scoreLabel: Label;
 
     @property({
-        type: RichText,
+        type: Label,
         tooltip: 'High Score'
     })
-    public highScore: RichText;
+    public highScore: Label;
 
     @property({
-        type: RichText,
+        type: Label,
         tooltip: 'Try Again?'
     })
-    public resultEnd: RichText;
+    public resultEnd: Label;
 
     //variables needed for the scores
     maxScore: number = 0; //saved high score
@@ -66,7 +66,7 @@ export class Results extends Component {
         this.maxScore = Math.max(this.maxScore, this.currentScore);
 
         //activate high score label
-        this.highScore.string = 'High Score is:' + this.maxScore;
+        this.highScore.string = 'BEST: ' + this.maxScore;
         this.highScore.node.active = true;
 
         //activate try again label

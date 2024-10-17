@@ -207,6 +207,12 @@ export class GameController extends Component {
                     this.lastSpike = element;
                 }
                 element.node.setPosition(new Vec3(x, element.node.position.y))
+                if (x <= this.mcController.node.position.x && !element.pass) {
+                    element.pass = true;
+                    this.result.addScore();
+                    this.clip.onAudioQueue(1);
+                }
+
             });
             this.currentRunSpeed += deltaTime * this.speedUpMultiplier;
         }

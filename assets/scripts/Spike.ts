@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 export class Spike extends Component {
     @property([Node])
     public spikeObjects: Node[] = [];
-
+    public pass: boolean;
     setSpike(hardCore) {
         let min = 0;
         let max = this.spikeObjects.length - 2;
@@ -16,6 +16,7 @@ export class Spike extends Component {
         this.spikeObjects.forEach((element, index) => {
             element.active = index == random;
         });
+        this.pass = false;
     }
 }
 

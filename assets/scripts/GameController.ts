@@ -32,6 +32,12 @@ export class GameController extends Component {
     })
     public hardCoreSpeed: number = 10;
 
+    @property({
+        type: CCFloat,
+        tooltip: 'How fast does game take?'
+    })
+    public speedUpMultiplier: number = 2;
+
 
 
     @property({
@@ -62,7 +68,6 @@ export class GameController extends Component {
     public currentRunSpeed: number;
     public activeSpikes: Spike[]
     public lastSpike: Spike;
-
     onLoad() {
 
         //get listener started
@@ -203,7 +208,7 @@ export class GameController extends Component {
                 }
                 element.node.setPosition(new Vec3(x, element.node.position.y))
             });
-            this.currentRunSpeed += deltaTime;
+            this.currentRunSpeed += deltaTime * this.speedUpMultiplier;
         }
 
     }
@@ -230,6 +235,9 @@ export class GameController extends Component {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-}
 
+
+
+
+}
 

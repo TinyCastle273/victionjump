@@ -28,6 +28,14 @@ export class GameController extends Component {
 
     @property({
         type: CCFloat,
+        tooltip: 'How fast does game take?'
+    })
+    public hardCoreSpeed: number = 10;
+
+
+
+    @property({
+        type: CCFloat,
         tooltip: 'Spike Distance?'
     })
     public spikeDistanceSpawnRandomFrom: number = 100;
@@ -52,8 +60,8 @@ export class GameController extends Component {
 
     public isOver: boolean;
     public currentRunSpeed: number;
-    public activeSpikes: Node[]
-    public lastSpike: Node;
+    public activeSpikes: Spike[]
+    public lastSpike: Spike;
 
     onLoad() {
 
@@ -118,7 +126,7 @@ export class GameController extends Component {
         //reset the pipes
         if (this.activeSpikes) {
             this.activeSpikes.forEach(element => {
-                this.spikePool.pool.put(element);
+                this.spikePool.pool.put(element.node);
             });
         }
         this.activeSpikes = new Array();
@@ -187,13 +195,15 @@ export class GameController extends Component {
             this.spawnSpike();
 
             this.activeSpikes.forEach(element => {
-                let x = element.position.x - this.currentRunSpeed * deltaTime;
-                if (x < -screen.windowSize.width / 2) {
-                    x = this.lastSpike.position.x + this.getRandomDistace();
+                let x = element.node.position.x - this.currentRunSpeed * deltaTime;
+                if (x < -screen.windowSize.width / 2 - 50) {
+                    x = this.lastSpike.node.position.x + this.getRandomDistace();
+                    element.setSpike(this.currentRunSpeed >= this.hardCoreSpeed);
                     this.lastSpike = element;
                 }
-                element.setPosition(new Vec3(x, element.position.y))
+                element.node.setPosition(new Vec3(x, element.node.position.y))
             });
+            this.currentRunSpeed += deltaTime;
         }
 
     }
@@ -202,14 +212,14 @@ export class GameController extends Component {
         if (!this.spikePool.pool) return;
         if (this.spikePool.pool.size() <= 0) return;
 
-        let spike = this.spikePool.pool.get();
-        this.spikePool.spikePoolHome.addChild(spike);
+        let spike = this.spikePool.pool.get().getComponent(Spike);
+        this.spikePool.spikePoolHome.addChild(spike.node);
 
         let currentSpikeDisntance = screen.windowSize.width / 2;
         if (this.lastSpike)
-            currentSpikeDisntance = this.lastSpike.position.x + this.getRandomDistace();
-        spike.setPosition(new Vec3(currentSpikeDisntance, 0));
-
+            currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandomDistace();
+        spike.node.setPosition(new Vec3(currentSpikeDisntance, 0));
+        spike.setSpike(false);
         this.activeSpikes.push(spike);
         this.lastSpike = spike;
     }

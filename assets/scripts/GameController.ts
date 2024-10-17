@@ -108,7 +108,7 @@ export class GameController extends Component {
 
     //when the bird hits something, run this
     gameOver() {
-
+        this.mcController.die();
         //show the results
         this.result.showResult();
 
@@ -117,7 +117,6 @@ export class GameController extends Component {
 
         //make the game over sound
         this.clip.onAudioQueue(3);
-
         //pause the game
         director.pause();
 
@@ -211,6 +210,7 @@ export class GameController extends Component {
                     element.pass = true;
                     this.result.addScore();
                     this.clip.onAudioQueue(1);
+                    this.mcController.scoring();
                 }
 
             });

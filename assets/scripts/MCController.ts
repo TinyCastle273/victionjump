@@ -1,4 +1,4 @@
-import { _decorator, CCFloat, Component, Node, Tween, tween, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, Node, Sprite, SpriteFrame, Tween, tween, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('MCController')
@@ -21,6 +21,21 @@ export class MCController extends Component {
     })
     public jumpDuration: number = 1.5;
 
+    @property({
+        type: Sprite,
+    })
+    public mainSprite: Sprite
+
+    @property({
+        type: SpriteFrame,
+    })
+    public defaultFrame: SpriteFrame
+
+    @property({
+        type: SpriteFrame,
+    })
+    public scoringFrame: SpriteFrame
+
 
     public tweenJump: Tween;
     public floor: number;
@@ -34,6 +49,7 @@ export class MCController extends Component {
     jump() {
         let canJump = this.node.position.y <= this.floor + this.canJumpHeight;
         if (!canJump) return false;
+        this.mainSprite.spriteFrame = this.defaultFrame;
         if (this.tweenJump)
             this.tweenJump.stop();
 
@@ -57,7 +73,7 @@ export class MCController extends Component {
     }
 
     reset() {
-
+        this.mainSprite.spriteFrame = this.defaultFrame;
         //place bird in location
         this.node.setPosition(new Vec3(this.node.position.x, this.floor));
 
@@ -66,6 +82,16 @@ export class MCController extends Component {
 
     }
 
+    die() {
+        this.mainSprite.spriteFrame = this.defaultFrame;
+    }
+
+    scoring() {
+        this.mainSprite.spriteFrame = this.scoringFrame;
+        setTimeout(() => {
+            this.mainSprite.spriteFrame = this.defaultFrame;
+        }, 800);
+    }
 
 }
 

@@ -20,6 +20,7 @@ export class GameController extends Component {
     })
     public spikePool: SpikePool;
 
+
     @property({
         type: CCFloat,
         tooltip: 'How fast does game take?'
@@ -37,8 +38,6 @@ export class GameController extends Component {
         tooltip: 'How fast does game take?'
     })
     public speedUpMultiplier: number = 2;
-
-
 
     @property({
         type: CCFloat,
@@ -126,7 +125,6 @@ export class GameController extends Component {
     resetGame() {
         //reset score, bird, and pipes
         this.result.resetScore();
-
         //reset the pipes
         if (this.activeSpikes) {
             this.activeSpikes.forEach(element => {

@@ -4,9 +4,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Clouds')
 export class Clouds extends Component {
-    @property({
-        type: GameController,
-    })
+    @property(GameController)
     public gameController: GameController;
 
     @property({
@@ -28,11 +26,14 @@ export class Clouds extends Component {
     public randomToHeight: number = 0.1;
 
     @property([UITransform])
-    public clouds: UITransform[] = [];
+    public cloudTransforms: UITransform[] = [];
 
     protected onLoad(): void {
+        this.resetClouds();
+    }
 
-        this.clouds.forEach(element => {
+    resetClouds() {
+        this.cloudTransforms.forEach(element => {
             this.setRandomElementPosition(element);
         });
     }
@@ -40,15 +41,15 @@ export class Clouds extends Component {
     protected update(dt: number): void {
         let x = this.node.position.x - this.gameController.currentRunSpeed * dt * this.cloudSpeed;
         this.node.setPosition(new Vec3(x, this.node.position.y))
-        this.clouds.forEach(element => {
-            if (element.node.worldPosition.x < 0) {
+        this.cloudTransforms.forEach(element => {
+            if (element.node.worldPosition.x < -element.contentSize.x) {
                 this.resetElementPosition(element);
             }
         });
     }
 
     setRandomElementPosition(element) {
-        let xG = this.getRandomDistace(0, screen.windowSize.width);
+        let xG = this.getRandomDistace(0, screen.windowSize.width * 1.5);
         let yG = this.getRandomDistace(this.randomFromHeight, this.randomToHeight)
         element.node.worldPosition = new Vec3(xG, yG);
         let scale = this.getRandomDistace(5, 10) * 0.1;
@@ -56,7 +57,7 @@ export class Clouds extends Component {
     }
 
     resetElementPosition(element) {
-        let xG = screen.windowSize.width + this.getRandomDistace(100, 500);
+        let xG = screen.windowSize.width + this.getRandomDistace(0, screen.windowSize.width);
         let yG = this.getRandomDistace(this.randomFromHeight, this.randomToHeight)
         element.node.worldPosition = new Vec3(xG, yG);
         let scale = this.getRandomDistace(5, 10) * 0.1;

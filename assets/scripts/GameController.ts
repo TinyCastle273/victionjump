@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene } from 'cc';
+import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode } from 'cc';
 import { MCController } from './MCController';
 import { SpikePool } from './SpikePool';
 import { Results } from './Results';
@@ -93,15 +93,30 @@ export class GameController extends Component {
                 this.startGame();
 
             }
-
-            if (this.isOver == false) {
-
-                let jumping = this.mcController.jump();
-                if (jumping)
-                    this.clip.onAudioQueue(0);
-            }
-
         })
+
+        input.on(Input.EventType.KEY_DOWN, (event) => {
+            if (event.keyCode == KeyCode.SPACE)
+                this.handleOnTap();
+        });
+    }
+
+    handleOnTap() {
+        if (this.isOver == true) {
+
+            //reset everything and start the game again
+            this.resetGame();
+            this.mcController.reset();
+            this.startGame();
+
+        }
+
+        if (this.isOver == false) {
+
+            let jumping = this.mcController.jump();
+            if (jumping)
+                this.clip.onAudioQueue(0);
+        }
     }
 
 

@@ -1,4 +1,4 @@
-import { _decorator, CCFloat, Component, Node, screen, UITransform, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, Node, screen, UITransform, Vec2, Vec3 } from 'cc';
 import { GameController } from './GameController';
 const { ccclass, property } = _decorator;
 
@@ -28,13 +28,11 @@ export class Clouds extends Component {
     public randomToHeight: number = 0.1;
 
     @property([UITransform])
-    public grounds: UITransform[] = [];
-    public maxElementX: number;
+    public clouds: UITransform[] = [];
 
     protected onLoad(): void {
-        this.maxElementX = 0;
 
-        this.grounds.forEach(element => {
+        this.clouds.forEach(element => {
             this.setRandomElementPosition(element);
         });
     }
@@ -42,20 +40,29 @@ export class Clouds extends Component {
     protected update(dt: number): void {
         let x = this.node.position.x - this.gameController.currentRunSpeed * dt * this.cloudSpeed;
         this.node.setPosition(new Vec3(x, this.node.position.y))
-        this.grounds.forEach(element => {
-            if (element.node.worldPosition.x < -screen.windowSize.width / 2 - element.width / 2) {
-                this.setRandomElementPosition(element);
+        this.clouds.forEach(element => {
+            if (element.node.worldPosition.x < 0) {
+                this.resetElementPosition(element);
             }
         });
     }
 
     setRandomElementPosition(element) {
-        let xG = this.maxElementX + this.getRandomDistace(200, 600);
+        let xG = this.getRandomDistace(0, screen.windowSize.width);
         let yG = this.getRandomDistace(this.randomFromHeight, this.randomToHeight)
-        element.node.setWorldPosition(new Vec3(xG, yG))
-        if (this.maxElementX < element.node.worldPosition.x)
-            this.maxElementX = element.node.worldPosition.x;
+        element.node.worldPosition = new Vec3(xG, yG);
+        let scale = this.getRandomDistace(5, 10) * 0.1;
+        element.node.scale = new Vec2(scale, scale);
     }
+
+    resetElementPosition(element) {
+        let xG = screen.windowSize.width + this.getRandomDistace(100, 500);
+        let yG = this.getRandomDistace(this.randomFromHeight, this.randomToHeight)
+        element.node.worldPosition = new Vec3(xG, yG);
+        let scale = this.getRandomDistace(5, 10) * 0.1;
+        element.node.scale = new Vec2(scale, scale);
+    }
+
 
 
     getRandomDistace(min, max) {

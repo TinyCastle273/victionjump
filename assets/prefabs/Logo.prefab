@@ -37,7 +37,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 18
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -224,6 +224,21 @@
     "logoDetails": [
       {
         "__id__": 12
+      },
+      {
+        "__id__": 13
+      },
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 15
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 17
       }
     ],
     "mainSprite": {
@@ -239,11 +254,61 @@
   },
   {
     "__type__": "LogoDetails",
-    "duration": 3,
+    "duration": 4,
     "tier": 1,
     "detail": "Providing a seamless and secure way to access 100+ blockchain for 400k users",
     "logoIcon": {
       "__uuid__": "9565b0f1-590a-4934-b6ca-275fadd4cd32@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "LogoDetails",
+    "duration": 4,
+    "tier": 1,
+    "detail": "Empowering Viction communities with onchain insights to make informed decisions",
+    "logoIcon": {
+      "__uuid__": "1a4ee27f-89bb-425a-a66c-59318ea72955@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "LogoDetails",
+    "duration": 4,
+    "tier": 1,
+    "detail": "The main interoperability solution between Viction and 90+ other chains, enabling Viction developers to create omnichain applications.",
+    "logoIcon": {
+      "__uuid__": "e55fb2a0-d0b5-451c-86a9-9033b8633f0f@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "LogoDetails",
+    "duration": 4,
+    "tier": 1,
+    "detail": "Provides transparency and visibility into the Viction network through on-chain data. ",
+    "logoIcon": {
+      "__uuid__": "9d23db8f-872e-4c5d-8dd0-ba87ac41679d@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "LogoDetails",
+    "duration": 4,
+    "tier": 1,
+    "detail": "Simplifying Web3 interactions with a unified identity solution. With over 140K IDs registered, OneID is making blockchain accessible for everyone.",
+    "logoIcon": {
+      "__uuid__": "adaeeb73-07a4-443f-8b87-cc6955fd08b5@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
+  },
+  {
+    "__type__": "LogoDetails",
+    "duration": 4,
+    "tier": 1,
+    "detail": "Enabling seamless web3 experience through quests to earn NFTs and personalized rewards on Viction and 5700+ other brands  ",
+    "logoIcon": {
+      "__uuid__": "3e8d659b-1dd8-4c9a-9b61-fd2d35254263@f9941",
       "__expectedType__": "cc.SpriteFrame"
     }
   },

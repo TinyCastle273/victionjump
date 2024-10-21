@@ -99,6 +99,8 @@ export class GameController extends Component {
     public activeLogos: Logo[]
     public lastLogo: Logo;
 
+    public godMode: boolean;
+    public cheatKey: String;
     onLoad() {
 
         //get listener started
@@ -114,6 +116,9 @@ export class GameController extends Component {
 
         //pause the game
         director.pause();
+
+        this.godMode = false;
+        this.cheatKey = "";
     }
 
     initListener() {
@@ -129,9 +134,21 @@ export class GameController extends Component {
             }
         })
 
+
         input.on(Input.EventType.KEY_DOWN, (event) => {
             if (event.keyCode == KeyCode.SPACE)
                 this.handleOnTap();
+            else {
+                let char = (String.fromCharCode(event.keyCode));
+                this.cheatKey = this.cheatKey.concat(char);
+                if (this.cheatKey.length > 50)
+                    this.cheatKey = ""
+                if (this.cheatKey.includes("VICTION")) {
+                    this.godMode = !this.godMode;
+                    console.log("godMode: " + this.godMode);
+                }
+            }
+
         });
     }
 
@@ -230,11 +247,13 @@ export class GameController extends Component {
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
 
         if (otherCollider.name.includes("obstacle")) {
-            //will be called once when two colliders begin to contact
-            this.mcController.hitSomething = true;
+            if (!this.godMode) {
+                //will be called once when two colliders begin to contact
+                this.mcController.hitSomething = true;
 
-            //make the hit sound
-            this.clip.onAudioQueue(2);
+                //make the hit sound
+                this.clip.onAudioQueue(2);
+            }
             return;
         }
 

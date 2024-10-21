@@ -6,6 +6,7 @@ import { MCAudio } from './MCAudio';
 import { Spike } from './Spike';
 import { LogoPool } from './LogoPool';
 import { Logo } from './Logo';
+import { Quote } from './Quote';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameController')
@@ -78,6 +79,12 @@ export class GameController extends Component {
     public result: Results;
 
     @property({
+        type: Quote,
+        tooltip: "Add results here",
+    })
+    public quote: Quote;
+
+    @property({
         type: MCAudio,
         tooltip: "add audio controller",
     })
@@ -99,6 +106,8 @@ export class GameController extends Component {
 
         //reset score to zero
         this.result.resetScore();
+
+        this.quote.hide();
 
         //game is over
         this.isOver = true;
@@ -151,6 +160,8 @@ export class GameController extends Component {
         //show the results
         this.result.showResult();
 
+        this.quote.hide();
+
         //game is over
         this.isOver = true;
 
@@ -165,6 +176,7 @@ export class GameController extends Component {
     resetGame() {
         //reset score, bird, and pipes
         this.result.resetScore();
+        this.quote.hide();
         //reset the pipes
         if (this.activeSpikes) {
             this.activeSpikes.forEach(element => {
@@ -195,7 +207,7 @@ export class GameController extends Component {
 
         //hide high score and other text
         this.result.hideResult();
-
+        this.quote.hide();
         //resume game
         director.resume();
 
@@ -235,10 +247,14 @@ export class GameController extends Component {
         if (logo.pass) return;
 
         logo.getLogo();
-
+        this.quote.show(logo.currentLogoDetails.detail);
         this.result.addScore();
         this.clip.onAudioQueue(1);
         this.mcController.scoring();
+        setTimeout(() => {
+            this.quote.hide();
+            this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
+        }, logo.currentLogoDetails.duration * 1000);
     }
 
 

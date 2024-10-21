@@ -232,8 +232,10 @@ export class GameController extends Component {
     }
 
     handleOnGetLogo(logo) {
+        if (logo.pass) return;
+
         logo.getLogo();
-        //this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
+
         this.result.addScore();
         this.clip.onAudioQueue(1);
         this.mcController.scoring();
@@ -331,12 +333,10 @@ export class GameController extends Component {
         let currentSpikeDisntance = screen.windowSize.width / 2;
         if (this.lastSpike)
             currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
-        logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.mcController.jumpHeight));
+        logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.getRandom(0, this.mcController.jumpHeight)));
         logo.setLogo();
         this.activeLogos.push(logo);
         this.lastLogo = logo;
-
-
     }
 
     getRandom(min, max) {

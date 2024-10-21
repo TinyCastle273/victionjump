@@ -224,6 +224,8 @@
     "mainSprite": {
       "__id__": 4
     },
+    "jumpHeight": 100,
+    "jumpDuration": 0.2,
     "_id": ""
   },
   {

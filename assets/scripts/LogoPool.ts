@@ -25,7 +25,7 @@ export class LogoPool extends Component {
     initPool() {
 
         //build the amount of nodes needed at a time
-        let initCount = 10;
+        let initCount = 2;
 
         //fill up the node pool
         for (let i = 0; i < initCount; i++) {

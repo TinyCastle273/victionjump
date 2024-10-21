@@ -217,13 +217,28 @@ export class GameController extends Component {
     //if you hit something, tell the bird you did
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
 
-        //will be called once when two colliders begin to contact
-        this.mcController.hitSomething = true;
+        if (otherCollider.name.includes("obstacle")) {
+            //will be called once when two colliders begin to contact
+            this.mcController.hitSomething = true;
 
-        //make the hit sound
-        this.clip.onAudioQueue(2);
+            //make the hit sound
+            this.clip.onAudioQueue(2);
+            return;
+        }
 
+        let logo = otherCollider.getComponent(Logo);
+        if (logo)
+            this.handleOnGetLogo(logo);
     }
+
+    handleOnGetLogo(logo) {
+        logo.getLogo();
+        //this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
+        this.result.addScore();
+        this.clip.onAudioQueue(1);
+        this.mcController.scoring();
+    }
+
 
     //hit detection call
     mcStruck() {
@@ -264,6 +279,10 @@ export class GameController extends Component {
                 if (x < -screen.windowSize.width / 2 - 50) {
                     this.logoPool.pool.put(element.node);
                     this.activeLogos.splice(index, 1);
+
+                    if (!element.pass) {
+                        this.onMissLogo();
+                    }
                 }
                 element.node.setPosition(new Vec3(x, element.node.position.y))
 
@@ -272,6 +291,10 @@ export class GameController extends Component {
             this.currentRunSpeed += deltaTime * this.speedUpMultiplier;
         }
 
+    }
+
+    onMissLogo() {
+        this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
     }
 
     spawnSpike() {
@@ -285,8 +308,11 @@ export class GameController extends Component {
         this.spikePool.spikePoolHome.addChild(spike.node);
 
         let currentSpikeDisntance = screen.windowSize.width / 2;
-        if (this.lastSpike)
-            currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
+        if (this.lastSpike) {
+            let spawnFromLastSpike = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
+            if (currentSpikeDisntance < spawnFromLastSpike)
+                currentSpikeDisntance = spawnFromLastSpike;
+        }
         spike.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor));
         spike.setSpike(false);
         this.activeSpikes.push(spike);
@@ -305,7 +331,7 @@ export class GameController extends Component {
         let currentSpikeDisntance = screen.windowSize.width / 2;
         if (this.lastSpike)
             currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
-        logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor));
+        logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.mcController.jumpHeight));
         logo.setLogo();
         this.activeLogos.push(logo);
         this.lastLogo = logo;

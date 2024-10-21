@@ -30,6 +30,7 @@ export class Logo extends Component {
 
 
     setLogo(index) {
+        index = index % this.logoDetails.length;
         this.currentLogoDetails = this.logoDetails[index];
 
         if (this.tweenGetLogo)

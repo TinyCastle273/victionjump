@@ -101,6 +101,8 @@ export class GameController extends Component {
 
     public godMode: boolean;
     public cheatKey: String;
+
+    public currentLogoIndex: number;
     onLoad() {
 
         //get listener started
@@ -119,6 +121,8 @@ export class GameController extends Component {
 
         this.godMode = false;
         this.cheatKey = "";
+
+        this.currentLogoIndex = 0;
     }
 
     initListener() {
@@ -214,6 +218,7 @@ export class GameController extends Component {
         this.lastSpike = null;
         this.lastLogo = null;
         this.currentRunSpeed = this.runSpeed;
+        this.currentLogoIndex = 0;
         this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
         //get objects moving again
         this.startGame();
@@ -369,7 +374,9 @@ export class GameController extends Component {
         if (this.lastSpike)
             currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
         logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.getRandom(0, this.mcController.jumpHeight)));
-        logo.setLogo(0);
+
+        logo.setLogo(this.currentLogoIndex);
+        this.currentLogoIndex += 1;
         this.activeLogos.push(logo);
         this.lastLogo = logo;
     }

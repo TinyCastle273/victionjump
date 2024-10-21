@@ -1,8 +1,12 @@
 import { _decorator, CCFloat, Component, Node, Sprite, tween, Tween, Vec2, Vec3 } from 'cc';
+import { LogoDetails } from './LogoDetails';
 const { ccclass, property } = _decorator;
 
 @ccclass('Logo')
 export class Logo extends Component {
+    @property([LogoDetails])
+    public logoDetails: LogoDetails[] = [];
+
     @property({
         type: Sprite,
     })
@@ -22,12 +26,15 @@ export class Logo extends Component {
 
     public tweenGetLogo: Tween;
     public pass: boolean;
+    public currentLogoDetails: LogoDetails
 
 
+    setLogo(index) {
+        this.currentLogoDetails = this.logoDetails[index];
 
-    setLogo() {
         if (this.tweenGetLogo)
             this.tweenGetLogo.stop();
+        this.mainSprite.spriteFrame = this.currentLogoDetails.logoIcon;
         this.node.scale = Vec3.ONE;
         this.pass = false;
     }

@@ -334,7 +334,7 @@ export class GameController extends Component {
         if (this.lastSpike)
             currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
         logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.getRandom(0, this.mcController.jumpHeight)));
-        logo.setLogo();
+        logo.setLogo(0);
         this.activeLogos.push(logo);
         this.lastLogo = logo;
     }

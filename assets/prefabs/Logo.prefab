@@ -37,7 +37,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 13
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -221,6 +221,11 @@
     "__prefab": {
       "__id__": 11
     },
+    "logoDetails": [
+      {
+        "__id__": 12
+      }
+    ],
     "mainSprite": {
       "__id__": 4
     },
@@ -231,6 +236,16 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "9eFgzLLEJLvIZchDTgOYgh"
+  },
+  {
+    "__type__": "LogoDetails",
+    "duration": 3,
+    "tier": 1,
+    "detail": "Providing a seamless and secure way to access 100+ blockchain for 400k users",
+    "logoIcon": {
+      "__uuid__": "9565b0f1-590a-4934-b6ca-275fadd4cd32@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

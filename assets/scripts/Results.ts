@@ -1,8 +1,14 @@
 import { _decorator, Component, Label, Node, RichText } from 'cc';
+import { Logo } from './Logo';
 const { ccclass, property } = _decorator;
 
 @ccclass('Results')
 export class Results extends Component {
+    @property({
+        type: Logo,
+    })
+    public logo: Logo;
+
     @property({
         type: Label,
         tooltip: 'Current Score'
@@ -32,7 +38,7 @@ export class Results extends Component {
         this.currentScore = num;
 
         //display new score
-        this.scoreLabel.string = ('' + this.currentScore);
+        this.scoreLabel.string = ('' + this.currentScore + "/" + this.logo.logoDetails.length);
 
     }
 
@@ -47,7 +53,7 @@ export class Results extends Component {
         this.hideResult();
 
         //reset current score label
-        this.scoreLabel.string = ('' + this.currentScore);
+        this.scoreLabel.string = ('' + this.currentScore + "/" + this.logo.logoDetails.length);
 
     }
 
@@ -66,7 +72,7 @@ export class Results extends Component {
         this.maxScore = Math.max(this.maxScore, this.currentScore);
 
         //activate high score label
-        this.highScore.string = 'BEST: ' + this.maxScore;
+        this.highScore.string = 'BEST: ' + this.maxScore + "/" + this.logo.logoDetails.length;
         this.highScore.node.active = true;
 
         //activate try again label

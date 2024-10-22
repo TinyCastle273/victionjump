@@ -177,7 +177,7 @@ export class GameController extends Component {
 
     //when the bird hits something, run this
     gameOver() {
-        this.mcController.die();
+        this.mcController.normalFace();
         //show the results
         this.result.showResult();
 
@@ -271,14 +271,25 @@ export class GameController extends Component {
         if (logo.pass) return;
 
         logo.getLogo();
-        this.quote.show(logo.currentLogoDetails.detail);
         this.result.addScore();
         this.clip.onAudioQueue(1);
-        this.mcController.scoring();
-        setTimeout(() => {
-            this.quote.hide();
+        this.mcController.smileFace();
+        let logoDuration = logo.getDuration();
+        if (logoDuration > 0) {
+            //Show Quote
+            this.quote.show(logo.currentLogoDetails.detail);
+            setTimeout(() => {
+                this.quote.hide();
+                this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
+                this.mcController.normalFace();
+            }, logoDuration);
+        } else {
+            //Get Logo Only
             this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
-        }, logo.currentLogoDetails.duration * 1000);
+            setTimeout(() => {
+                this.mcController.normalFace();
+            }, 1000)
+        }
     }
 
 
@@ -310,9 +321,9 @@ export class GameController extends Component {
                 element.node.setPosition(new Vec3(x, element.node.position.y))
                 if (x <= this.mcController.node.position.x && !element.pass) {
                     element.pass = true;
-                    this.result.addScore();
-                    this.clip.onAudioQueue(1);
-                    this.mcController.scoring();
+                    //this.result.addScore();
+                    //this.clip.onAudioQueue(1);
+                    //this.mcController.smileFace();
                 }
             });
 

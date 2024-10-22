@@ -76,22 +76,21 @@ export class MCController extends Component {
         this.mainSprite.spriteFrame = this.defaultFrame;
         //place bird in location
         this.node.setPosition(new Vec3(this.node.position.x, this.floor));
-
+        this.normalFace();
         //reset hit detection
         this.hitSomething = false;
 
     }
 
-    die() {
+    normalFace() {
         this.mainSprite.spriteFrame = this.defaultFrame;
     }
 
-    scoring() {
+    smileFace() {
         this.mainSprite.spriteFrame = this.scoringFrame;
-        setTimeout(() => {
-            this.mainSprite.spriteFrame = this.defaultFrame;
-        }, 800);
     }
+
+
 
 }
 

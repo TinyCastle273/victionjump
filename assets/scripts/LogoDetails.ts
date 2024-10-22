@@ -3,10 +3,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('LogoDetails')
 export class LogoDetails {
-    @property({
-        type: CCFloat
-    })
-    public duration: number = 3;
 
     @property({
         type: CCFloat

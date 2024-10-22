@@ -24,6 +24,12 @@ export class Logo extends Component {
     })
     public jumpDuration: number = 1.5;
 
+    @property({
+        type: CCFloat,
+        tooltip: 'how long does he jump?'
+    })
+    public durationPerChar: number = 0.1;
+
     public tweenGetLogo: Tween;
     public pass: boolean;
     public currentLogoDetails: LogoDetails
@@ -74,6 +80,15 @@ export class Logo extends Component {
         this.tweenGetLogo = tween(this.node).then(tweenUp).then(tweenDown).start();
         return true;
     }
+
+    getDuration() {
+        if (this.currentLogoDetails.detail) {
+            return this.durationPerChar * this.currentLogoDetails.detail.length * 1000;
+        }
+        return 0;
+    }
+
+
 }
 
 

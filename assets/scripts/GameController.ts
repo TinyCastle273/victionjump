@@ -371,7 +371,8 @@ export class GameController extends Component {
         let currentSpikeDisntance = screen.windowSize.width / 2;
         if (this.lastSpike)
             currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
-        this.logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.getRandom(0, this.mcController.jumpHeight)));
+        let height = (this.getRandom(0, 1) == 0) ? this.mcController.floor : this.mcController.floor + this.mcController.jumpHeight;
+        this.logo.node.setPosition(new Vec3(currentSpikeDisntance, height));
         this.logo.node.active = true;
         this.logo.setLogo(this.currentLogoIndex);
         this.currentLogoIndex += 1;

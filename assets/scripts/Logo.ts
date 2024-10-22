@@ -47,7 +47,7 @@ export class Logo extends Component {
         if (this.tweenGetLogo)
             this.tweenGetLogo.stop();
         this.mainSprite.spriteFrame = this.currentLogoDetails.logoIcon;
-        this.node.scale = Vec3.ONE;
+        this.node.scale = new Vec3(0.6, 0.6, 0.6);
         this.pass = false;
     }
 
@@ -67,7 +67,7 @@ export class Logo extends Component {
                     easing: 'quadOut'
                 },
                 scale: {
-                    value: new Vec3(0.5, 0.5, 0.5)
+                    value: new Vec3(0.3, 0.3, 0.3)
                 }
             });
 

@@ -1266,9 +1266,11 @@
     "gameController": {
       "__id__": 33
     },
-    "cloudSpeed": 0.1,
-    "randomFromHeight": 600,
-    "randomToHeight": 1000,
+    "cloudSpeed": 0.2,
+    "randomDistanceFrom": 400,
+    "randomDistanceTo": 600,
+    "randomFromHeight": 0,
+    "randomToHeight": 450,
     "cloudTransforms": [
       {
         "__id__": 8
@@ -1314,7 +1316,7 @@
       "__id__": 42
     },
     "logo": null,
-    "runSpeed": 500,
+    "runSpeed": 550,
     "hardCoreSpeed": 480,
     "speedUpMultiplier": 0,
     "spikeDistanceSpawnRandomFrom": 500,
@@ -3361,7 +3363,7 @@
       "0",
       "detail"
     ],
-    "value": "Providing a seamless and secure way to access 100+ blockchain for 400k users"
+    "value": "Providing a seamless and secure way to access 100+ blockchain for 400k+ users on Viction"
   },
   {
     "__type__": "cc.TargetInfo",

@@ -34,6 +34,11 @@ export class Logo extends Component {
     public pass: boolean;
     public currentLogoDetails: LogoDetails
 
+    protected onLoad(): void {
+        this.logoDetails.forEach(element => {
+            console.log(element.tier + " -- " + element.logoIcon.name + " -- " + element.detail);
+        });
+    }
 
     setLogo(index) {
         index = index % this.logoDetails.length;

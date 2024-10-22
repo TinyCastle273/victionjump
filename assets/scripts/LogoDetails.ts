@@ -3,12 +3,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('LogoDetails')
 export class LogoDetails {
-
-    @property({
-        type: CCFloat
-    })
-    public tier: number;
-
     @property({
         type: String
     })
@@ -19,6 +13,11 @@ export class LogoDetails {
         type: SpriteFrame,
     })
     public logoIcon: SpriteFrame
+
+    @property({
+        type: CCFloat
+    })
+    public tier: number;
 }
 
 

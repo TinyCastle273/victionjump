@@ -24,10 +24,9 @@ export class GameController extends Component {
     public spikePool: SpikePool;
 
     @property({
-        type: LogoPool,
-        tooltip: "Add SpikePool node",
+        type: Logo,
     })
-    public logoPool: LogoPool;
+    public logo: Logo;
 
     @property({
         type: CCFloat,
@@ -96,9 +95,6 @@ export class GameController extends Component {
     public activeSpikes: Spike[]
     public lastSpike: Spike;
 
-    public activeLogos: Logo[]
-    public lastLogo: Logo;
-
     public godMode: boolean;
     public cheatKey: String;
 
@@ -121,7 +117,7 @@ export class GameController extends Component {
 
         this.godMode = false;
         this.cheatKey = "";
-
+        this.logo.node.active = false;
         this.currentLogoIndex = 0;
     }
 
@@ -146,10 +142,11 @@ export class GameController extends Component {
                 let char = (String.fromCharCode(event.keyCode));
                 this.cheatKey = this.cheatKey.concat(char);
                 if (this.cheatKey.length > 50)
-                    this.cheatKey = ""
+                    this.cheatKey = "";
                 if (this.cheatKey.includes("VICTION")) {
                     this.godMode = !this.godMode;
                     console.log("godMode: " + this.godMode);
+                    this.cheatKey = "";
                 }
             }
 
@@ -206,17 +203,11 @@ export class GameController extends Component {
         }
         this.activeSpikes = new Array();
 
-        if (this.activeLogos) {
-            this.activeLogos.forEach(element => {
-                this.logoPool.pool.put(element.node);
-            });
-        }
-        this.activeLogos = new Array();
+        this.logo.node.active = false;
 
         //game is starting
         this.isOver = false;
         this.lastSpike = null;
-        this.lastLogo = null;
         this.currentRunSpeed = this.runSpeed;
         this.currentLogoIndex = 0;
         this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
@@ -230,6 +221,7 @@ export class GameController extends Component {
         //hide high score and other text
         this.result.hideResult();
         this.quote.hide();
+        this.logo.node.active = false;
         //resume game
         director.resume();
 
@@ -327,19 +319,19 @@ export class GameController extends Component {
                 }
             });
 
-            this.activeLogos.forEach((element, index) => {
-                let x = element.node.position.x - this.currentRunSpeed * deltaTime;
-                if (x < -screen.windowSize.width / 2 - 50) {
-                    this.logoPool.pool.put(element.node);
-                    this.activeLogos.splice(index, 1);
+            if (this.logo.node.active) {
 
-                    if (!element.pass) {
+                let x = this.logo.node.position.x - this.currentRunSpeed * deltaTime;
+                if (x < -screen.windowSize.width / 2 - 50) {
+                    this.logo.node.active = false;
+
+                    if (!this.logo.pass) {
                         this.onMissLogo();
                     }
                 }
-                element.node.setPosition(new Vec3(x, element.node.position.y))
+                this.logo.node.setPosition(new Vec3(x, this.logo.node.position.y))
+            }
 
-            });
 
             this.currentRunSpeed += deltaTime * this.speedUpMultiplier;
         }
@@ -376,20 +368,13 @@ export class GameController extends Component {
     }
 
     spawnLogo() {
-        if (!this.logoPool.pool) return;
-        if (this.logoPool.pool.size() <= 0) return;
-        let logo = this.logoPool.pool.get().getComponent(Logo);
-        this.logoPool.logoPoolHome.addChild(logo.node);
-
         let currentSpikeDisntance = screen.windowSize.width / 2;
         if (this.lastSpike)
             currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
-        logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.getRandom(0, this.mcController.jumpHeight)));
-
-        logo.setLogo(this.currentLogoIndex);
+        this.logo.node.setPosition(new Vec3(currentSpikeDisntance, this.mcController.floor + this.getRandom(0, this.mcController.jumpHeight)));
+        this.logo.node.active = true;
+        this.logo.setLogo(this.currentLogoIndex);
         this.currentLogoIndex += 1;
-        this.activeLogos.push(logo);
-        this.lastLogo = logo;
     }
 
     getRandom(min, max) {

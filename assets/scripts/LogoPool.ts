@@ -1,8 +1,13 @@
 import { _decorator, Component, instantiate, Node, NodePool, Prefab } from 'cc';
+import { LogoDetails } from './LogoDetails';
 const { ccclass, property } = _decorator;
 
 @ccclass('LogoPool')
 export class LogoPool extends Component {
+
+    @property([LogoDetails])
+    public logoDetails: LogoDetails[] = [];
+
     @property({
         type: Prefab,
         tooltip: 'The prefab of spike'

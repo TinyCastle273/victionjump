@@ -1278,11 +1278,11 @@
     "gameController": {
       "__id__": 33
     },
-    "cloudSpeed": 0.3,
+    "cloudSpeed": 0.2,
     "cloudScaleRandomForm": 6,
     "cloudScaleRandomTo": 8,
     "randomDistanceFrom": 500,
-    "randomDistanceTo": 100,
+    "randomDistanceTo": 1000,
     "randomFromHeight": 300,
     "randomToHeight": 500,
     "cloudTransforms": [

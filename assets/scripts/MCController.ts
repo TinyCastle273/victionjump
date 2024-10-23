@@ -1,4 +1,4 @@
-import { _decorator, CCFloat, Component, Node, Sprite, SpriteFrame, Tween, tween, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, Node, Sprite, SpriteFrame, Tween, tween, UITransform, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('MCController')
@@ -36,6 +36,10 @@ export class MCController extends Component {
     })
     public scoringFrame: SpriteFrame
 
+    @property({
+        type: UITransform,
+    })
+    public uiTransform: UITransform
 
     public tweenJump: Tween;
     public floor: number;

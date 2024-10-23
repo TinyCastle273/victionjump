@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color } from 'cc';
+import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color, Tween, Camera } from 'cc';
 import { MCController } from './MCController';
 import { SpikePool } from './SpikePool';
 import { Results } from './Results';
@@ -94,6 +94,16 @@ export class GameController extends Component {
     })
     public introSprite: Sprite
 
+    @property({
+        type: Sprite,
+    })
+    public lastSceneSprite: Sprite
+
+    @property({
+        type: Camera,
+    })
+    public mainCamera: Camera
+
 
     public isOver: boolean;
     public isWin: boolean;
@@ -129,6 +139,8 @@ export class GameController extends Component {
         this.cheatKey = "";
         this.logo.node.active = false;
         this.currentLogoIndex = 0;
+
+        this.lastSceneSprite.node.active = false;
         this.introSprite.node.active = true;
         tween(this.introSprite)
             .to(1, {
@@ -182,6 +194,12 @@ export class GameController extends Component {
                     console.log("speedUp: " + this.speedUp);
                     this.cheatKey = "";
                 }
+
+                if (this.cheatKey.includes("WIN")) {
+                    this.currentLogoIndex = this.logo.logoDetails.length;
+                    this.cheatKey = "";
+                    console.log("Win!!!");
+                }
             }
 
         });
@@ -231,6 +249,64 @@ export class GameController extends Component {
         if (this.isWin)
             return;
         this.isWin = true;
+
+        let tweenCharacter = tween(this.mcController.node).delay(1)
+            .to(1.5, {
+                position: {
+                    value: new Vec3(0, this.mcController.node.position.y),
+                }
+            }).call(() => {
+                this.mcController.smileFace();
+            }).delay(1);
+
+        let baseOrthoHeight = this.mainCamera.orthoHeight;
+
+        let zoomInDuration = 0.3;
+
+        let tweenCameraZoomIn = tween(this.mainCamera).
+            to(zoomInDuration, {
+                orthoHeight: {
+                    value: 0
+                }
+            });
+
+        console.log(this.mcController.uiTransform.contentSize.y * 0.5);
+        let tweenCameraMoveIn = tween(this.mainCamera.node).
+            to(zoomInDuration, {
+                position: {
+                    value: new Vec3(0, this.mcController.node.position.y + this.mcController.uiTransform.contentSize.y * 0.5, this.mcController.node.position.z)
+                }
+            })
+
+        // let zoomOutDuration = 0.01;
+        // let tweenCameraZoomOut = tween(this.mainCamera).
+        //     to(zoomOutDuration, {
+        //         orthoHeight: {
+        //             value: baseOrthoHeight,
+        //             easing: "cubicOut"
+        //         }
+        //     });
+
+        // let tweenCameraMoveOut = tween(this.mainCamera.node).
+        //     to(zoomOutDuration, {
+        //         position: {
+        //             value: Vec3.ZERO,
+        //             easing: "cubicOut"
+        //         }
+        //     });
+        this.lastSceneSprite.color = Color.BLACK;
+        let tweenLastScene = tween(this.lastSceneSprite).
+            to(0.5, {
+                color: Color.WHITE
+            }
+            );
+
+        tween(this.node).then(tweenCharacter).parallel(tweenCameraZoomIn, tweenCameraMoveIn).call(() => {
+            this.lastSceneSprite.node.active = true;
+            this.mainCamera.orthoHeight = baseOrthoHeight;
+            this.mainCamera.node.position = Vec3.ZERO;
+        }).then(tweenLastScene).start();
+
     }
 
     resetGame() {
@@ -331,7 +407,7 @@ export class GameController extends Component {
 
 
     nextRound() {
-        if (this.currentLogoIndex == this.logo.logoDetails.length) {
+        if (this.currentLogoIndex >= this.logo.logoDetails.length) {
             this.gameWin();
             return;
         }

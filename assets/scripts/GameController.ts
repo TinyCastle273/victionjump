@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode } from 'cc';
+import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color } from 'cc';
 import { MCController } from './MCController';
 import { SpikePool } from './SpikePool';
 import { Results } from './Results';
@@ -89,6 +89,12 @@ export class GameController extends Component {
     })
     public clip: MCAudio;
 
+    @property({
+        type: Sprite,
+    })
+    public introSprite: Sprite
+
+
     public isOver: boolean;
     public currentRunSpeed: number;
     public currentSpikeSpawned: number;
@@ -119,13 +125,22 @@ export class GameController extends Component {
         this.cheatKey = "";
         this.logo.node.active = false;
         this.currentLogoIndex = 0;
+        this.introSprite.node.active = true;
+        tween(this.introSprite)
+            .to(1, {
+                color: {
+                    value: new Color(1, 1, 1, 0),
+                    easing: 'quadOut'
+                }
+            }).call(() => {
+                this.introSprite.node.active = false;
+            }).start();
     }
 
     initListener() {
         //if an mouse or finger goes down, do this
         this.node.on(Node.EventType.TOUCH_START, () => {
             if (this.isOver == true) {
-
                 //reset everything and start the game again
                 this.resetGame();
                 this.mcController.reset();

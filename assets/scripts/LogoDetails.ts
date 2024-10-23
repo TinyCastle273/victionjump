@@ -4,9 +4,9 @@ const { ccclass, property } = _decorator;
 @ccclass('LogoDetails')
 export class LogoDetails {
     @property({
-        type: String
+        type: SpriteFrame
     })
-    public detail: String;
+    public detail: SpriteFrame;
 
 
     @property({

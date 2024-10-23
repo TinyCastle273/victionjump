@@ -88,7 +88,7 @@ export class Logo extends Component {
 
     getDuration() {
         if (this.currentLogoDetails.detail) {
-            return this.durationPerChar * this.currentLogoDetails.detail.length * 1000;
+            return this.durationPerChar * (this.currentLogoDetails.detail.width * this.currentLogoDetails.detail.height) * 0.6;
         }
         return 0;
     }

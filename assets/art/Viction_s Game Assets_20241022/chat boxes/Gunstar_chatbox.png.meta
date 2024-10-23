@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.27",
+  "importer": "image",
+  "imported": true,
+  "uuid": "cf3bab9f-9aca-4db9-8b92-7cf9edc865e4",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "cf3bab9f-9aca-4db9-8b92-7cf9edc865e4@6c48a",
+      "displayName": "Gunstar_chatbox",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "cf3bab9f-9aca-4db9-8b92-7cf9edc865e4",
+        "isUuid": true,
+        "visible": false,
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "cf3bab9f-9aca-4db9-8b92-7cf9edc865e4@f9941",
+      "displayName": "Gunstar_chatbox",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": -9.5,
+        "offsetY": -0.5,
+        "trimX": 21,
+        "trimY": 15,
+        "width": 639,
+        "height": 171,
+        "rawWidth": 700,
+        "rawHeight": 200,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -319.5,
+            -85.5,
+            0,
+            319.5,
+            -85.5,
+            0,
+            -319.5,
+            85.5,
+            0,
+            319.5,
+            85.5,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            21,
+            185,
+            660,
+            185,
+            21,
+            14,
+            660,
+            14
+          ],
+          "nuv": [
+            0.03,
+            0.07,
+            0.9428571428571428,
+            0.07,
+            0.03,
+            0.925,
+            0.9428571428571428,
+            0.925
+          ],
+          "minPos": [
+            -319.5,
+            -85.5,
+            0
+          ],
+          "maxPos": [
+            319.5,
+            85.5,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "cf3bab9f-9aca-4db9-8b92-7cf9edc865e4@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "fixAlphaTransparencyArtifacts": false,
+    "redirect": "cf3bab9f-9aca-4db9-8b92-7cf9edc865e4@6c48a"
+  }
+}

@@ -1,4 +1,4 @@
-import { _decorator, CCFloat, Component, Label, Node, tween, Tween, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, Label, Node, Sprite, tween, Tween, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Quote')
@@ -9,9 +9,10 @@ export class Quote extends Component {
     public quotePopup: Node
 
     @property({
-        type: Label,
+        type: Sprite,
     })
-    public quoteLabel: Label;
+    public mainSprite: Sprite
+
 
     @property({
         type: CCFloat,
@@ -42,7 +43,7 @@ export class Quote extends Component {
                 }
             }).start();
 
-        this.quoteLabel.string = detail;
+        this.mainSprite.spriteFrame = detail;
     }
 
     hide() {

@@ -16,6 +16,16 @@ export class Clouds extends Component {
     @property({
         type: CCFloat,
     })
+    public cloudScaleRandomForm: number = 0.1;
+
+    @property({
+        type: CCFloat,
+    })
+    public cloudScaleRandomTo: number = 0.1;
+
+    @property({
+        type: CCFloat,
+    })
     public randomDistanceFrom: number = 300;
 
     @property({
@@ -69,7 +79,7 @@ export class Clouds extends Component {
         let xG = startPoint + this.getRandomDistace(this.randomDistanceFrom, this.randomDistanceTo);
         let yG = this.getRandomDistace(this.randomFromHeight, this.randomToHeight)
         element.node.position = new Vec3(xG, yG);
-        let scale = this.getRandomDistace(5, 10) * 0.1;
+        let scale = this.getRandomDistace(this.cloudScaleRandomForm, this.cloudScaleRandomTo) * 0.1;
         element.node.scale = new Vec2(scale, scale);
         this.lastCloud = element.node;
     }

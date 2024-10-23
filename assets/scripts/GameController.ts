@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color, Tween, Camera } from 'cc';
+import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color, Tween, Camera, VideoPlayer } from 'cc';
 import { MCController } from './MCController';
 import { SpikePool } from './SpikePool';
 import { Results } from './Results';
@@ -16,6 +16,17 @@ export class GameController extends Component {
         tooltip: "Add CharacterController node",
     })
     public mcController: MCController;
+
+    @property({
+        type: VideoPlayer,
+    })
+    public videoPlayer: VideoPlayer;
+
+    @property({
+        type: Sprite,
+    })
+    public skySprite: Sprite;
+
 
     @property({
         type: SpikePool,
@@ -131,10 +142,9 @@ export class GameController extends Component {
         this.isOver = true;
 
         this.isWin = false;
-
+        this.videoPlayer.play();
         //pause the game
         director.pause();
-
         this.godMode = false;
         this.cheatKey = "";
         this.logo.node.active = false;
@@ -229,6 +239,8 @@ export class GameController extends Component {
 
     //when the bird hits something, run this
     gameOver() {
+        this.videoPlayer.stop();
+
         this.mcController.normalFace();
         //show the results
         this.result.showResult();
@@ -253,7 +265,7 @@ export class GameController extends Component {
         let tweenCharacter = tween(this.mcController.node).delay(1)
             .to(1.5, {
                 position: {
-                    value: new Vec3(0, this.mcController.node.position.y),
+                    value: new Vec3(0, this.mcController.floor),
                 }
             }).call(() => {
                 this.mcController.smileFace();
@@ -261,7 +273,7 @@ export class GameController extends Component {
 
         let baseOrthoHeight = this.mainCamera.orthoHeight;
 
-        let zoomInDuration = 0.3;
+        let zoomInDuration = 0.2;
 
         let tweenCameraZoomIn = tween(this.mainCamera).
             to(zoomInDuration, {
@@ -270,7 +282,6 @@ export class GameController extends Component {
                 }
             });
 
-        console.log(this.mcController.uiTransform.contentSize.y * 0.5);
         let tweenCameraMoveIn = tween(this.mainCamera.node).
             to(zoomInDuration, {
                 position: {
@@ -301,7 +312,10 @@ export class GameController extends Component {
             }
             );
 
-        tween(this.node).then(tweenCharacter).parallel(tweenCameraZoomIn, tweenCameraMoveIn).call(() => {
+        tween(this.node).then(tweenCharacter).call(() => {
+            this.skySprite.enabled = true;
+            this.videoPlayer.node.active = false;
+        }).parallel(tweenCameraZoomIn, tweenCameraMoveIn).call(() => {
             this.lastSceneSprite.node.active = true;
             this.mainCamera.orthoHeight = baseOrthoHeight;
             this.mainCamera.node.position = Vec3.ZERO;
@@ -310,6 +324,7 @@ export class GameController extends Component {
     }
 
     resetGame() {
+
         //reset score, bird, and pipes
         this.result.resetScore();
         this.quote.hide();
@@ -335,7 +350,7 @@ export class GameController extends Component {
 
     //what to do when the game is starting.
     startGame() {
-
+        this.videoPlayer.play();
         //hide high score and other text
         this.result.hideResult();
         this.quote.hide();

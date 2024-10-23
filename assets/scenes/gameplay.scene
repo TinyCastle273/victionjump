@@ -1325,11 +1325,11 @@
       "__id__": 42
     },
     "logo": null,
-    "runSpeed": 600,
+    "runSpeed": 550,
     "hardCoreSpeed": 480,
     "speedUpMultiplier": 0,
-    "spikeDistanceSpawnRandomFrom": 500,
-    "spikeDistanceSpawnRandomTo": 800,
+    "spikeDistanceSpawnRandomFrom": 400,
+    "spikeDistanceSpawnRandomTo": 700,
     "LogoPerSpikeRandomFrom": 1,
     "LogoPerSpikeRandomTo": 2,
     "result": {
@@ -2743,7 +2743,7 @@
       "__id__": 2
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 73

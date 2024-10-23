@@ -96,12 +96,14 @@ export class GameController extends Component {
 
 
     public isOver: boolean;
+    public isWin: boolean;
     public currentRunSpeed: number;
     public currentSpikeSpawned: number;
     public activeSpikes: Spike[]
     public lastSpike: Spike;
 
     public godMode: boolean;
+    public speedUp: boolean;
     public cheatKey: String;
 
     public currentLogoIndex: number;
@@ -117,6 +119,8 @@ export class GameController extends Component {
 
         //game is over
         this.isOver = true;
+
+        this.isWin = false;
 
         //pause the game
         director.pause();
@@ -140,6 +144,8 @@ export class GameController extends Component {
     initListener() {
         //if an mouse or finger goes down, do this
         this.node.on(Node.EventType.TOUCH_START, () => {
+            if (this.isWin)
+                return;
             if (this.isOver == true) {
                 //reset everything and start the game again
                 this.resetGame();
@@ -151,6 +157,9 @@ export class GameController extends Component {
 
 
         input.on(Input.EventType.KEY_DOWN, (event) => {
+            if (this.isWin)
+                return;
+
             if (event.keyCode == KeyCode.SPACE)
                 this.handleOnTap();
             else {
@@ -163,12 +172,25 @@ export class GameController extends Component {
                     console.log("godMode: " + this.godMode);
                     this.cheatKey = "";
                 }
+
+                if (this.cheatKey.includes("SPEEDUP")) {
+                    this.speedUp = !this.speedUp;
+                    if (this.speedUp)
+                        this.currentRunSpeed *= 2;
+                    else
+                        this.currentRunSpeed /= 2;
+                    console.log("speedUp: " + this.speedUp);
+                    this.cheatKey = "";
+                }
             }
 
         });
     }
 
     handleOnTap() {
+        if (this.isWin)
+            return;
+
         if (this.isOver == true) {
 
             //reset everything and start the game again
@@ -205,6 +227,11 @@ export class GameController extends Component {
 
     }
 
+    gameWin() {
+        if (this.isWin)
+            return;
+        this.isWin = true;
+    }
 
     resetGame() {
         //reset score, bird, and pipes
@@ -282,12 +309,15 @@ export class GameController extends Component {
         this.clip.onAudioQueue(1);
         this.mcController.smileFace();
         let logoDuration = logo.getDuration();
+        if (this.speedUp)
+            logoDuration = 100;
+
         if (logoDuration > 0) {
             //Show Quote
             this.quote.show(logo.currentLogoDetails.detail);
             setTimeout(() => {
                 this.quote.hide();
-                this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
+                this.nextRound();
                 this.mcController.normalFace();
             }, logoDuration);
         } else {
@@ -299,6 +329,14 @@ export class GameController extends Component {
         }
     }
 
+
+    nextRound() {
+        if (this.currentLogoIndex == this.logo.logoDetails.length) {
+            this.gameWin();
+            return;
+        }
+        this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
+    }
 
     //hit detection call
     mcStruck() {
@@ -341,7 +379,7 @@ export class GameController extends Component {
                     this.logo.node.active = false;
 
                     if (!this.logo.pass) {
-                        this.onMissLogo();
+                        this.nextRound();
                     }
                 }
                 this.logo.node.setPosition(new Vec3(x, this.logo.node.position.y))
@@ -351,10 +389,6 @@ export class GameController extends Component {
             this.currentRunSpeed += deltaTime * this.speedUpMultiplier;
         }
 
-    }
-
-    onMissLogo() {
-        this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
     }
 
     spawnSpike() {

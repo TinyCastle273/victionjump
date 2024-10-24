@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color, Tween, Camera, VideoPlayer } from 'cc';
+import { _decorator, Component, Node, screen, CCFloat, director, Collider2D, Contact2DType, IPhysics2DContact, Vec3, Vec2, Scene, SystemEvent, systemEvent, input, Input, KeyCode, Sprite, tween, Color, Tween, Camera, VideoPlayer, CCInteger, Animation, SpriteFrame } from 'cc';
 import { MCController } from './MCController';
 import { SpikePool } from './SpikePool';
 import { Results } from './Results';
@@ -18,15 +18,17 @@ export class GameController extends Component {
     public mcController: MCController;
 
     @property({
-        type: VideoPlayer,
-    })
-    public videoPlayer: VideoPlayer;
-
-    @property({
         type: Sprite,
     })
     public skySprite: Sprite;
 
+    @property([Sprite])
+    public cityAnimation: Sprite[] = [];
+
+    @property({
+        type: CCInteger,
+    })
+    public logoPerCity: number = 4;
 
     @property({
         type: SpikePool,
@@ -128,7 +130,7 @@ export class GameController extends Component {
     })
     public mainCamera: Camera
 
-
+    public isReady: boolean;
     public isOver: boolean;
     public isWin: boolean;
     public currentRunSpeed: number;
@@ -154,17 +156,20 @@ export class GameController extends Component {
         //game is over
         this.isOver = true;
 
+        this.updateCity(-1);
+
         this.isWin = false;
-        this.videoPlayer.play();
         //pause the game
         director.pause();
         this.godMode = false;
         this.cheatKey = "";
         this.logo.node.active = false;
         this.currentLogoIndex = 0;
-
+        this.isReady = true;
         this.lastSceneSprite.node.active = false;
         this.introSprite.node.active = true;
+
+
         tween(this.introSprite)
             .to(1, {
                 color: {
@@ -176,12 +181,14 @@ export class GameController extends Component {
             }).start();
     }
 
+
+
     initListener() {
         //if an mouse or finger goes down, do this
         this.node.on(Node.EventType.TOUCH_START, () => {
             if (this.isWin)
                 return;
-            if (this.isOver == true) {
+            if (this.isOver == true && this.isReady) {
                 //reset everything and start the game again
                 this.resetGame();
                 this.mcController.reset();
@@ -232,7 +239,7 @@ export class GameController extends Component {
         if (this.isWin)
             return;
 
-        if (this.isOver == true) {
+        if (this.isOver == true && this.isReady) {
 
             //reset everything and start the game again
             this.resetGame();
@@ -249,11 +256,25 @@ export class GameController extends Component {
         }
     }
 
+    updateCity(currentLogo) {
+        let cityIndex = currentLogo / this.logoPerCity;
+        for (var i = 0; i < this.cityAnimation.length; i++) {
+            if (cityIndex < i + 1) {
+                this.cityAnimation[i].node.active = false;
+            } else {
+                if (this.cityAnimation[i].node.active == false) {
+                    this.cityAnimation[i].node.active = true;
+                    this.cityAnimation[i].spriteFrame = null;
+                    let anim = this.cityAnimation[i].node.getComponent(Animation);
+                    anim.play();
+                }
+            }
+        }
+    }
 
     //when the bird hits something, run this
     gameOver() {
-        this.videoPlayer.stop();
-
+        this.isReady = false;
         this.mcController.normalFace();
         //show the results
         this.result.showResult();
@@ -265,6 +286,11 @@ export class GameController extends Component {
 
         //make the game over sound
         this.clip.onAudioQueue(3);
+
+        setTimeout(() => {
+            this.isReady = true;
+
+        }, 1000);
 
     }
 
@@ -325,7 +351,6 @@ export class GameController extends Component {
 
         tween(this.node).then(tweenCharacter).call(() => {
             this.skySprite.enabled = true;
-            this.videoPlayer.node.active = false;
         }).parallel(tweenCameraZoomIn, tweenCameraMoveIn).call(() => {
             this.lastSceneSprite.node.active = true;
             this.mainCamera.orthoHeight = baseOrthoHeight;
@@ -339,6 +364,7 @@ export class GameController extends Component {
         //reset score, bird, and pipes
         this.result.resetScore();
         this.quote.hide();
+        this.updateCity(-1);
         //reset the pipes
         if (this.activeSpikes) {
             this.activeSpikes.forEach(element => {
@@ -361,7 +387,6 @@ export class GameController extends Component {
 
     //what to do when the game is starting.
     startGame() {
-        this.videoPlayer.play();
         //hide high score and other text
         this.result.hideResult();
         this.quote.hide();
@@ -405,7 +430,7 @@ export class GameController extends Component {
 
     handleOnGetLogo(logo) {
         if (logo.pass) return;
-
+        this.updateCity(this.currentLogoIndex);
         logo.getLogo();
         this.result.addScore();
         this.clip.onAudioQueue(1);
@@ -441,6 +466,7 @@ export class GameController extends Component {
             this.gameWin();
             return;
         }
+        this.updateCity(this.currentLogoIndex);
         this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
     }
 

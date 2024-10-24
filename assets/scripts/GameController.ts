@@ -71,6 +71,19 @@ export class GameController extends Component {
 
     @property({
         type: CCFloat,
+        tooltip: 'Logo Distance?'
+    })
+    public logoDistanceSpawnRandomFrom: number = 100;
+
+    @property({
+        type: CCFloat,
+        tooltip: 'Logo Distance?'
+    })
+    public logoDistanceSpawnRandomTo: number = 200;
+
+
+    @property({
+        type: CCFloat,
         tooltip: 'Logo per Spike?'
     })
     public LogoPerSpikeRandomFrom: number = 10;
@@ -408,9 +421,13 @@ export class GameController extends Component {
             this.quote.show(logo.currentLogoDetails.detail);
             setTimeout(() => {
                 this.quote.hide();
-                this.nextRound();
                 this.mcController.normalFace();
             }, logoDuration);
+
+            setTimeout(() => {
+                this.nextRound();
+            }, logoDuration - 1000);
+
         } else {
             //Get Logo Only
             this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
@@ -510,7 +527,7 @@ export class GameController extends Component {
     spawnLogo() {
         let currentSpikeDisntance = screen.windowSize.width / 2;
         if (this.lastSpike)
-            currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.spikeDistanceSpawnRandomFrom, this.spikeDistanceSpawnRandomTo);
+            currentSpikeDisntance = this.lastSpike.node.position.x + this.getRandom(this.logoDistanceSpawnRandomFrom, this.logoDistanceSpawnRandomTo);
         let height = (this.getRandom(0, 1) == 0) ? this.mcController.floor : this.mcController.floor + this.mcController.jumpHeight;
         this.logo.node.setPosition(new Vec3(currentSpikeDisntance, height));
         this.logo.node.active = true;

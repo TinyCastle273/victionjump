@@ -1341,6 +1341,8 @@
     "speedUpMultiplier": 0,
     "spikeDistanceSpawnRandomFrom": 400,
     "spikeDistanceSpawnRandomTo": 700,
+    "logoDistanceSpawnRandomFrom": 300,
+    "logoDistanceSpawnRandomTo": 500,
     "LogoPerSpikeRandomFrom": 1,
     "LogoPerSpikeRandomTo": 2,
     "result": {
@@ -1672,7 +1674,7 @@
       "__id__": 2
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 44
@@ -2075,9 +2077,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 152,
+      "g": 143,
+      "b": 134,
       "a": 255
     },
     "_string": "10/30",
@@ -2100,7 +2102,7 @@
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 2,
-    "_enableOutline": true,
+    "_enableOutline": false,
     "_outlineColor": {
       "__type__": "cc.Color",
       "r": 0,
@@ -2185,8 +2187,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 136.2265625,
-      "height": 54.4
+      "width": 130.71994018554688,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2210,9 +2212,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 152,
+      "g": 143,
+      "b": 134,
       "a": 255
     },
     "_string": "Best: 10",
@@ -2224,15 +2226,18 @@
     "_lineHeight": 40,
     "_overflow": 0,
     "_enableWrapText": true,
-    "_font": null,
-    "_isSystemFontUsed": true,
+    "_font": {
+      "__uuid__": "0120b1f7-c6c8-4c97-9b0f-61e9c1acad32",
+      "__expectedType__": "cc.TTFFont"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_isItalic": false,
     "_isBold": false,
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
-    "_enableOutline": true,
+    "_enableOutline": false,
     "_outlineColor": {
       "__type__": "cc.Color",
       "r": 0,
@@ -2317,8 +2322,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 383.1552734375,
-      "height": 92.2
+      "width": 347.4099426269531,
+      "height": 88.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2342,9 +2347,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 152,
+      "g": 143,
+      "b": 134,
       "a": 255
     },
     "_string": "TRY AGAIN",
@@ -2356,15 +2361,18 @@
     "_lineHeight": 70,
     "_overflow": 0,
     "_enableWrapText": true,
-    "_font": null,
-    "_isSystemFontUsed": true,
+    "_font": {
+      "__uuid__": "0120b1f7-c6c8-4c97-9b0f-61e9c1acad32",
+      "__expectedType__": "cc.TTFFont"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_isItalic": false,
     "_isBold": false,
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
-    "_enableOutline": true,
+    "_enableOutline": false,
     "_outlineColor": {
       "__type__": "cc.Color",
       "r": 0,

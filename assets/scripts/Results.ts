@@ -72,7 +72,7 @@ export class Results extends Component {
         this.maxScore = Math.max(this.maxScore, this.currentScore);
 
         //activate high score label
-        this.highScore.string = 'BEST: ' + this.maxScore + "/" + this.logo.logoDetails.length;
+        this.highScore.string = 'COLLECTED : ' + this.maxScore + "/" + this.logo.logoDetails.length;
         this.highScore.node.active = true;
 
         //activate try again label

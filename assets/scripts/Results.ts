@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node, RichText } from 'cc';
+import { _decorator, Color, Component, director, Label, Node, RichText, Sprite, tween } from 'cc';
 import { Logo } from './Logo';
 const { ccclass, property } = _decorator;
 
@@ -8,6 +8,11 @@ export class Results extends Component {
         type: Logo,
     })
     public logo: Logo;
+
+    @property({
+        type: Sprite,
+    })
+    public screen: Sprite;
 
     @property({
         type: Label,
@@ -67,22 +72,39 @@ export class Results extends Component {
 
     //show the score results when the game ends.
     showResult() {
+        this.screen.node.active = true;
 
         //check if it's the high score
         this.maxScore = Math.max(this.maxScore, this.currentScore);
 
-        //activate high score label
-        this.highScore.string = 'COLLECTED : ' + this.maxScore + "/" + this.logo.logoDetails.length;
-        this.highScore.node.active = true;
+        this.scoreLabel.node.active = false;
 
-        //activate try again label
-        this.resultEnd.node.active = true;
+        this.screen.color = new Color(this.screen.color.r, this.screen.color.g, this.screen.color.b, 0);
+        tween(this.screen)
+            .to(0.5, {
+                color: {
+                    value: new Color(this.screen.color.r, this.screen.color.g, this.screen.color.b, 255)
+                }
+            }).call(() => {
+                //activate high score label
+                this.highScore.string = 'COLLECTED : ' + this.currentScore + "/" + this.logo.logoDetails.length;
+                this.highScore.node.active = true;
+
+                //activate try again label
+                this.resultEnd.node.active = true;
+                //pause the game
+                director.pause();
+
+            }).start();
+
+
 
     }
 
     //hide results and request for a new game when the new game starts
     hideResult() {
-
+        this.scoreLabel.node.active = true;
+        this.screen.node.active = false;
         //hide the high score and try again label.
         this.highScore.node.active = false;
         this.resultEnd.node.active = false;

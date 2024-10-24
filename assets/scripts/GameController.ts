@@ -265,8 +265,6 @@ export class GameController extends Component {
 
         //make the game over sound
         this.clip.onAudioQueue(3);
-        //pause the game
-        director.pause();
 
     }
 

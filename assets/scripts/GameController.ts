@@ -362,9 +362,9 @@ export class GameController extends Component {
     resetGame() {
 
         //reset score, bird, and pipes
-        this.result.resetScore();
+
         this.quote.hide();
-        this.updateCity(-1);
+        //this.updateCity(-1);
         //reset the pipes
         if (this.activeSpikes) {
             this.activeSpikes.forEach(element => {
@@ -379,7 +379,11 @@ export class GameController extends Component {
         this.isOver = false;
         this.lastSpike = null;
         this.currentRunSpeed = this.runSpeed;
-        this.currentLogoIndex = 0;
+
+        //DONT RESTART GAME
+        //this.currentLogoIndex = 0; 
+        //this.result.resetScore();
+
         this.currentSpikeSpawned = this.getRandom(this.LogoPerSpikeRandomFrom, this.LogoPerSpikeRandomTo);
         //get objects moving again
         this.startGame();

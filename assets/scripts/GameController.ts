@@ -435,6 +435,7 @@ export class GameController extends Component {
     handleOnGetLogo(logo) {
         if (logo.pass) return;
         this.updateCity(this.currentLogoIndex);
+        this.currentLogoIndex += 1;
         logo.getLogo();
         this.result.addScore();
         this.clip.onAudioQueue(1);
@@ -515,6 +516,7 @@ export class GameController extends Component {
                     this.logo.node.active = false;
 
                     if (!this.logo.pass) {
+                        this.currentLogoIndex += 1;
                         this.nextRound();
                     }
                 }
@@ -560,7 +562,6 @@ export class GameController extends Component {
         this.logo.node.setPosition(new Vec3(currentSpikeDisntance, height));
         this.logo.node.active = true;
         this.logo.setLogo(this.currentLogoIndex);
-        this.currentLogoIndex += 1;
     }
 
     getRandom(min, max) {

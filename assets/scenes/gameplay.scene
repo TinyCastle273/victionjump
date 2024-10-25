@@ -208,7 +208,7 @@
     },
     "_depth": 1,
     "_stencil": 0,
-    "_clearFlags": 6,
+    "_clearFlags": 7,
     "_rect": {
       "__type__": "cc.Rect",
       "x": 0,
@@ -2569,7 +2569,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "4d308c9e-1ef3-40b3-864b-f57f90dc117a@f9941",
+      "__uuid__": "092fa79c-de5e-4c20-a390-df603fef607a@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -2799,7 +2799,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 213.73000000000002,
+      "y": 385.37699999999995,
       "z": 0
     },
     "_lrot": {
@@ -2837,7 +2837,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 432.449951171875,
+      "width": 484.3438720703125,
       "height": 63
     },
     "_anchorPoint": {
@@ -2870,8 +2870,8 @@
     "_string": "COLLECTED: 10/30",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 50,
-    "_fontSize": 50,
+    "_actualFontSize": 56,
+    "_fontSize": 56,
     "_fontFamily": "NeueHaasDisplay-Roman",
     "_lineHeight": 50,
     "_overflow": 0,
@@ -2934,7 +2934,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 109.924,
+      "y": 316.433,
       "z": 0
     },
     "_lrot": {
@@ -2972,7 +2972,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 347.4099426269531,
+      "width": 277.92791748046875,
       "height": 88.2
     },
     "_anchorPoint": {
@@ -3005,8 +3005,8 @@
     "_string": "TRY AGAIN",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 70,
-    "_fontSize": 70,
+    "_actualFontSize": 56,
+    "_fontSize": 56,
     "_fontFamily": "NeueHaasDisplay-Roman",
     "_lineHeight": 70,
     "_overflow": 0,
